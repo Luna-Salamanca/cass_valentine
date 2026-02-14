@@ -1,13 +1,17 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart, Sparkles, Truck, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [noBtnPosition, setNoBtnPosition] = useState({ x: 0, y: 0 });
   const [hasAccepted, setHasAccepted] = useState(false);
   
+  const ORDER_URL = import.meta.env.VITE_DOORDASH_URL || "";
+  const MYSTERY_IMAGE = `${import.meta.env.BASE_URL}valentine_day.jpg`;
+  const SOURCE_IMAGE_URL = "https://x.com/usalupa/status/2022594143135109371";
+
   const hearts = useMemo(() => Array.from({ length: 6 }).map((_, i) => ({
     id: i,
     size: 40 + Math.random() * 100,
@@ -167,16 +171,52 @@ export default function Home() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-muted-foreground text-xl font-light"
+              className="text-muted-foreground text-xl font-light mb-8"
             >
               I love you my love
             </motion.p>
 
             <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="relative w-full overflow-hidden rounded-3xl border border-primary/10 bg-white/40 backdrop-blur-md shadow-2xl p-6"
+            >
+              <div className="flex flex-col gap-6">
+                <a 
+                  href={SOURCE_IMAGE_URL} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-inner group bg-muted cursor-pointer block"
+                >
+                  <img 
+                    src={MYSTERY_IMAGE} 
+                    alt="Valentine Surprise" 
+                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                    <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300" />
+                  </div>
+                </a>
+
+                <Button 
+                  asChild
+                  size="lg"
+                  className="w-full py-7 text-lg rounded-2xl bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 group transition-all"
+                >
+                  <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3">
+                    Click to open your gift
+                    <ExternalLink size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </a>
+                </Button>
+              </div>
+            </motion.div>
+
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="mt-12 text-sm text-muted-foreground/50"
+              transition={{ delay: 1.2 }}
+              className="mt-8 text-sm text-muted-foreground/50 italic font-light"
             >
               <p>I can't wait to see you...</p>
             </motion.div>
